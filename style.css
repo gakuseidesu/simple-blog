@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+html, body {
+    font-family: 'EB Garamond', serif;
+    background-color: #fff;
+}
+
+#navigation, #footer {
+    background-color: #e5e5e5;
+}
+
+.sb-hero {
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0px;
+}
+
+.postHero {
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0px;
+    min-height: 500px;
+}
+
+.cat-hero {
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0px;
+    min-height: 100%;
+    width: 18rem;
+}
+
+.rp-hero {
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    padding: 0px;
+    min-height: 100%;
+    width: 18rem;
+}
+
+.equal-height-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.equal-height-col > .row {
+    flex-grow: 1;
+}
