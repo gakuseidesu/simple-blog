@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // send mail
-    $to = "gakuseidesu@atypicalautodidactica.com";
+    $to = "[email]";
     $headers = "From: $name <$email>" . "\r\n";
     $messageBody = "\n\n$message";
 
