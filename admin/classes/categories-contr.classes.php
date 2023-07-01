@@ -10,19 +10,18 @@ class CategoryContr extends Category {
     public function createCategory() {
         // Error handler
         if($this->emptyInput() == false) {
+            session_start();
             $_SESSION['categoryError'] = "Please fill in the required field.";
             header("location: ../categories.php");
             exit();
         }
 
         if($this->categoryTakenCheck() == false) {
+            session_start();
             $_SESSION['categoryError'] = "This category already exist. Choose a different category name.";
             header("location: ../categories.php");
             exit();
         }
-
-        // unset any existing error messages
-        unset($_SESSION['categoryError']);
 
         $this->setCategory($this->category);
     }

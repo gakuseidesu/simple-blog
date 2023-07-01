@@ -4,21 +4,23 @@ class Login extends Dbh {
     // method for login
     protected function getUser($email, $pwd) {
         $stmt = $this->connect()->prepare('SELECT pwd FROM users WHERE email = ? OR pwd = ?;');
+        $stmt->bindParam(1, $email);
+        $stmt->bindParam(2, $pwd);
 
         // execute sql statement
-        if(!$stmt->execute(array($email, $pwd))) {
-            $stmt = null;
+        if(!$stmt->execute()) {
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['errorLoginFailed'] = "Login failed.";
+            $_SESSION['loginErrors'] = "Login failed. Error: " . $errorInfo[2];
             header("location: ../login.php");
             exit();
         }
 
         // check if there are any rows returned
         if($stmt->rowCount() == 0) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['errorUserNotFound'] = "User not found";
+            $_SESSION['loginErrors'] = "User not found. Error: " . $errorInfo[2];
             header("location: ../login.php");
             exit();
         }
@@ -28,26 +30,26 @@ class Login extends Dbh {
         $checkPwd = password_verify($pwd, $pwdHashed[0]["pwd"]);
 
         if($checkPwd == false) {
-            $stmt = null;
             session_start();
-            $_SESSION['errorWrongPwd'] = "Password incorrect.";
+            $_SESSION['loginErrors'] = "Password incorrect.";
             header("location: ../login.php");
             exit();
         } elseif($checkPwd == true) {
             $stmt = $this->connect()->prepare('SELECT * FROM users WHERE email = ? OR pwd = ?;');
+            $stmt->bindParam(1, $email);
+            $stmt->bindParam(2, $pwd);
 
-            if(!$stmt->execute(array($email, $pwd))) {
-                $stmt = null;
+            if(!$stmt->execute()) {
+                $errorInfo = $stmt->errorInfo();
                 session_start();
-                $_SESSION['errorLoginFailed'] = "Login failed.";
+                $_SESSION['loginErrors'] = "Login failed. Error: " . $errorInfo[2];
                 header("location: ../login.php");
                 exit();
             }
 
             if($stmt->rowCount() == 0) {
-                $stmt = null;
                 session_start();
-                $_SESSION['errorUserNotFound'] = "User not found.";
+                $_SESSION['loginErrors'] = "User not found.";
                 header("location: ../login.php");
                 exit();
             }

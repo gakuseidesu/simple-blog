@@ -12,7 +12,7 @@ class LoginContr extends Login {
     public function loginUser() {
         // error handler
         if($this->emptyInput() == false) {
-            $_SESSION['errorEmpty'] = "Please fill in all of the fields.";
+            $_SESSION['loginErrors'] = "Please fill in all of the fields.";
             header("location: ../login.php");
             exit();
         }

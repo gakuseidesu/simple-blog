@@ -8,24 +8,31 @@ class Signup extends Dbh {
         // hash password
         $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
 
+        $stmt->bindParam(1, $userName);
+        $stmt->bindParam(2, $hashedPwd);
+        $stmt->bindParam(3, $email);
+
         // execute sql
-        if(!$stmt->execute(array($userName, $hashedPwd, $email))) {
-            $stmt = null;
+        if(!$stmt->execute()) {
+            $errorInfo = $stmt->errorInfo();
+            session_start();
+            $_SESSION["signupErrors"] = "Failed to insert details into the database. Error: " . $errorInfo[2];
             header("location: ../registration.php?error=stmtfailed");
             exit();
         }
-
-        $stmt = null;
     }
 
     // method to check if user already exists
     protected function checkUser($email) {
         $stmt = $this->connect()->prepare('SELECT email FROM users WHERE email = ?;');
+        $stmt->bindParam(1, $email);
 
         // execute sql
-        if(!$stmt->execute(array($email))) {
-            $stmt = null;
-            header("location: ../registration.php?error=stmtfailed");
+        if(!$stmt->execute()) {
+            $errorInfo = $stmt->errorInfo();
+            session_start();
+            $_SESSION["signupErrors"] = "Failed to check email for duplications. Error: " . $errorInfo[2];
+            header("location: ../registration.php");
             exit();
         }
 
@@ -47,17 +54,17 @@ class Signup extends Dbh {
 
         // execute sql
         if(!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['errorStmtFailed'] = "Failed to get user id.";
+            $_SESSION['signupErrors'] = "Failed to get user id. Error: " . $errorInfo[2];
             header("location: ../registration.php");
             exit();
         }
 
         if($stmt->rowCount() == 0) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['errorUserNotFound'] = "User id not found.";
+            $_SESSION['signupErrors'] = "User id not found. Error: " . $errorInfo[2];
             header("location: ../registration.php");
             exit();
         }

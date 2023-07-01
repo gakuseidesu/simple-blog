@@ -13,6 +13,21 @@
             <div class="col-sm-12 col-md-8 col-lg-6 mx-auto px-0">
                 <div class="row">
                     <div class="col border border-secondary my-5 p-5">
+                        <?php
+                            // Initialize the session
+                            session_start();
+
+                            // Check if a session variable exist and list them
+                            if (isset($_SESSION['loginErrors'])) {
+                                echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['loginErrors'], ENT_QUOTES, 'UTF-8') . '</div>';
+
+                                // Clear session variable
+                                unset($_SESSION['loginErrors']);
+                            }
+                            
+                            // Regenerate the session ID to prevent session fixation attacks
+                            session_regenerate_id(true);
+                        ?>
                         <form action="includes/login.inc.php" method="post" class="needs-validation" novalidate>
                             <div class="form-floating mb-3">
                                 <input type="email" class="form-control" name="email" id="email" class="form-control" placeholder="Enter your email" required>

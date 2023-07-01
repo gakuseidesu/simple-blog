@@ -14,14 +14,11 @@ class Pages extends Dbh {
         if (!$stmt->execute()) {
             // Error occurred during execution
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Statement failed to insert page into the database. Error: " . $errorInfo[2];
             header("location: ../addpage.php");
             exit(); 
         }
-
-        $stmt = null;
     }
 
     // Method to update page
@@ -37,14 +34,11 @@ class Pages extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Statement failed to update page in the database. Error: " . $errorInfo[2];
             header("location: ../editpage.php?q=" . $pagesId);
             exit(); 
         }
-
-        $stmt = null;
     }
 
     // Method to delete page
@@ -56,13 +50,11 @@ class Pages extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Failed to delete page from the database. Error: " . $errorInfo[2];
             header("location: ../pages.php");
             exit();
         }
-
     }
 
     // Method to get page by id
@@ -72,15 +64,14 @@ class Pages extends Dbh {
         $stmt->bindParam(1, $pagesId);
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to get page by id.";
+            $_SESSION['pagesError'] = "Statement failed to get page by id. Error: " . $errorInfo[2];
             header("location: ../pages.php");
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Page not found.";
             header("location: ../pages.php");
@@ -99,7 +90,6 @@ class Pages extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Failed to get page ID by title. Error: " . $errorInfo[2];
             header("location: index.php");
@@ -116,15 +106,14 @@ class Pages extends Dbh {
         $stmt = $this->connect()->prepare('SELECT * FROM pages');
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to retrieve all pages.";
+            $_SESSION['pagesError'] = "Statement failed to retrieve all pages. Error: " . $errorInfo[2];
             header("location: ../pages.php");
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "There are no pages found.";
             header("location: ../pages.php");
@@ -142,15 +131,14 @@ class Pages extends Dbh {
         $stmt->bindParam(1, $pagesId);
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to get the page title.";
+            $_SESSION['pagesError'] = "Statement failed to get the page title. Error: " . $errorInfo[2];
             header("location: ../editpage.php?q=" . $pagesId);
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Title not found.";
             header("location: ../editpage.php?q=" . $pagesId);
@@ -167,15 +155,14 @@ class Pages extends Dbh {
         $stmt->bindParam(1, $pagesId);
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to get the Pages content.";
+            $_SESSION['pagesError'] = "Statement failed to get the Pages content. Error: " . $errorInfo[2];
             header("location: ../editpage.php?q=" . $pagesId);
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Content not found.";
             header("location: ../editpage.php?q=" . $pagesId);
@@ -192,15 +179,14 @@ class Pages extends Dbh {
         $stmt->bindParam(1, $pagesId);
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to get the featured image.";
+            $_SESSION['pagesError'] = "Statement failed to get the featured image. Error: " . $errorInfo[2];
             header("location: ../editpage.php?q=" . $pagesId);
             exit();
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "The featured image for this page is empty.";
             header("location: ../editpage.php?q=" . $pagesId);
@@ -219,7 +205,6 @@ class Pages extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "Failed to retrieve featuredImage2. Error: " . $errorInfo[2];
             header("location: ../editpage.php?q=" . $pagesId);
@@ -227,7 +212,6 @@ class Pages extends Dbh {
         }
 
         if ($stmt->rowCount() == 0) {
-            $stmt = null;
             session_start();
             $_SESSION['pagesError'] = "The second featured images for this page is empty.";
             header("location: ../editpage.php?q=" . $pagesId);
@@ -246,9 +230,9 @@ class Pages extends Dbh {
         $stmt->bindParam(2, $pageContent);
 
         if (!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
             session_start();
-            $_SESSION['pagesError'] = "Statement failed to check for duplications.";
+            $_SESSION['pagesError'] = "Statement failed to check for duplications. Error: " . $errorInfo[2];
             header("location: ../pages.php");
             exit();
         }

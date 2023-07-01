@@ -34,6 +34,9 @@
             <?php
                 if (isset($_SESSION['pagesError'])) {
                     echo "<div class='alert alert-danger' role='alert'>" . htmlspecialchars(($_SESSION['pagesError']), ENT_QUOTES, 'UTF-8') . "</div>";
+
+                    // clear session variable
+                    unset($_SESSION['pagesError']);
                 }
             ?>
             <form action="includes/deletepage.inc.php" method="post">
@@ -85,7 +88,7 @@
                                 </div>
                             </th>
                             <td>
-                                <a href="pages.php?q=<?php echo htmlspecialchars($pagesId, ENT_QUOTES, 'UTF-8'); ?>">
+                                <a href="editpage.php?q=<?php echo htmlspecialchars($pagesId, ENT_QUOTES, 'UTF-8'); ?>">
                                     <?php echo htmlspecialchars($pageDetail["title"]); ?>
                                 </a>
                             </td>

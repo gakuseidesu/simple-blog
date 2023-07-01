@@ -25,14 +25,17 @@
         </div>
     </div>
     <div class="row">
+        <?php 
+            if(isset($_SESSION['categoryError'])) { 
+                echo "<div class='alert alert-danger' role='alert'>" . htmlspecialchars(($_SESSION['categoryError']), ENT_QUOTES, 'UTF-8') . "</div>";
+
+                // Clear session variable
+                unset($_SESSION['categoryError']);
+            
+            }
+        ?>
         <div class="col-sm-12">
             <form action="includes/category.inc.php" method="post">
-                <?php 
-                    if(isset($_SESSION['categoryError'])) { 
-                        echo "<div class='alert alert-danger' role='alert'>" . htmlspecialchars(($_SESSION['categoryError']), ENT_QUOTES, 'UTF-8') . "</div>";
-                    
-                    }
-                ?>
                 <div class="row g-2">
                     <div class="col-md form-floating mb-3">
                         <input type="text" name="category" id="category" class="form-control" placeholder="Category title">

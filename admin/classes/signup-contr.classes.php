@@ -16,28 +16,28 @@ class SignupContr extends Signup {
         // Error handlers
         if($this->emptyInput() == false) {
             session_start();
-            $_SESSION['errorEmpty'] = "Please fill in all of the fields.";
+            $_SESSION['signupErrors'] = "Please fill in all of the fields.";
             header("location: ../registration.php");
             exit();
         }
 
         if($this->invalidUsername() == false) {
             session_start();
-            $_SESSION['errorUsername'] =  "Username is invalid. Username must be at least 4 characters long and alphanumeric";
+            $_SESSION['signupErrors'] =  "Username is invalid. Username must be at least 4 characters long and alphanumeric";
             header("location: ../registration.php");
             exit();
         }
 
         if($this->invalidEmail() == false) {
             session_start();
-            $_SESSION['errorEmail'] = "Please use a valid email address.";
+            $_SESSION['signupErrors'] = "Please use a valid email address.";
             header("location: ../registration.php");
             exit();
         }
 
         if($this->pwdMatch() == false) {
             session_start();
-            $_SESSION['errorPwdMatch'] = "Passwords inputted does not match.";
+            $_SESSION['signupErrors'] = "Passwords inputted does not match.";
             header("location: ../registration.php");
             exit();
         }
@@ -49,7 +49,8 @@ class SignupContr extends Signup {
             $errors = $pwdValidator->getErrors();
             session_start();
             foreach($errors as $error) {
-                $_SESSION['errorPwd'] = $error;
+                session_start();
+                $_SESSION['signupErrors'] = $error;
             }
             header("location: ../registration.php");
             exit();
@@ -57,7 +58,7 @@ class SignupContr extends Signup {
 
         if($this->emailTakenCheck() == false) {
             session_start();
-            $_SESSION['emailTaken'] = "The email you entered is already taken.";
+            $_SESSION['signupErrors'] = "The email you entered is already taken.";
             header("location: ../registration.php");
             exit();
         }

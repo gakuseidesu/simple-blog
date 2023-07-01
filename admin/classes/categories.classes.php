@@ -8,13 +8,12 @@ class Category extends Dbh {
 
 
         if(!$stmt->execute()) {
-            $stmt = null;
-            $_SESSION['categoryError'] = "Statement failed to create the category.";
+            $errorInfo = $stmt->errorInfo();
+            session_start();
+            $_SESSION['categoryError'] = "Failed to create the category. Error: " . $errorInfo[2];
             header("location: ../categories.php");
             exit();
         }
-
-        $stmt = null;
     }
 
     // Method to check if a category exists
@@ -23,8 +22,9 @@ class Category extends Dbh {
         $stmt->bindValue(':category', $category);
 
         if(!$stmt->execute()) {
-            $stmt = null;
-            $_SESSION['categoryError'] = "Statement failed checking for duplicates.";
+            $errorInfo = $stmt->errorInfo();
+            session_start();
+            $_SESSION['categoryError'] = "Failed to check for duplicates. Error: " . $errorInfo[2];
             header("location: ../categories.php");
             exit();
         }
@@ -46,7 +46,6 @@ class Category extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['categoryError'] = "Failed to get category id. Error: " . $errorInfo[2];
             header("location: ../categories.php");
@@ -54,7 +53,6 @@ class Category extends Dbh {
         }
 
         if ($stmt->rowCount() === 0) {
-            $stmt = null;
             session_start();
             $_SESSION['categoryError'] = "There are no category id found.";
             header("location: ../categories.php");
@@ -73,7 +71,6 @@ class Category extends Dbh {
 
         if (!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['categoryError'] = "Failed to get category name. Error: " . $errorInfo[2];
             header("location: ../categories.php");
@@ -81,7 +78,6 @@ class Category extends Dbh {
         }
 
         if ($stmt->rowCount() === 0) {
-            $stmt = null;
             session_start();
             $_SESSION['categoryError'] = "There are no category name found.";
             header("location: ../categories.php");
@@ -99,14 +95,18 @@ class Category extends Dbh {
 
         // execute sql
         if(!$stmt->execute()) {
-            $stmt = null;
+            $errorInfo = $stmt->errorInfo();
+            session_start();
             $_SESSION['categoryError'] = "Statement failed to get all categories.";
             header("location: ../categories.php");
             exit();
         }
 
         if($stmt->rowCount() == 0) {
+            session_start();
             $_SESSION['categoryError'] = "There are no categories to display.";
+            header("location: ../categories.php");
+            exit();
         }
 
         $categoryData = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -122,7 +122,6 @@ class Category extends Dbh {
         // execute sql
         if(!$stmt->execute()) {
             $errorInfo = $stmt->errorInfo();
-            $stmt = null;
             session_start();
             $_SESSION['categoryError'] = "Failed to delete the category. Error: " . $errorInfo[2];
             header("location: ../categories.php");

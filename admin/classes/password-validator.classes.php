@@ -8,7 +8,7 @@ class PasswordValidator {
     }
 
     public function validatePwd() {
-        if(strlen($this->pwd < 8) && strlen($this->pwd > 20)) {
+        if(strlen($this->pwd) < 8 || strlen($this->pwd) > 20) {
             $this->errors[] = "Password must be between 8 and 20 characters long.";
         }
 

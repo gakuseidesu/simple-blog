@@ -18,10 +18,11 @@
                             session_start();
 
                             // Check if a session variable exist and list them
-                            foreach($_SESSION as $key => $value) {
-                                if(isset($_SESSION[$key])) {
-                                    echo htmlspecialchars($_SESSION[$key], ENT_QUOTES, 'UTF-8');
-                                }
+                            if (isset($_SESSION['signupErrors'])) {
+                                echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['signupErrors'], ENT_QUOTES, 'UTF-8') . '</div>';
+
+                                // Clear session variable
+                                unset($_SESSION['signupErrors']);
                             }
                             
                             // Regenerate the session ID to prevent session fixation attacks

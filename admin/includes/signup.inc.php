@@ -1,5 +1,5 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] = "POST") {
+if($_SERVER["REQUEST_METHOD"] == "POST") {
     // grab submitted data from the form
     $userName = htmlspecialchars($_POST["userName"], ENT_QUOTES, 'UTF-8');
     $email = htmlspecialchars($_POST["email"], ENT_QUOTES, 'UTF-8');
