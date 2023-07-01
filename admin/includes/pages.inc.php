@@ -3,7 +3,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // grab submitted data from the form
     $pagesTitle = filter_var($_POST["pagesTitle"], FILTER_SANITIZE_SPECIAL_CHARS);
     $pagesContent = $_POST["pagesContent"];
-    //$pagesContent = htmlspecialchars(strip_tags($_POST["pagesContent"]), ENT_QUOTES, 'UTF-8');
 
     // Link the necessary files
     include "../classes/dbh.classes.php";
