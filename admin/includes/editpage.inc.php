@@ -4,7 +4,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pagesId = filter_var($_POST["pagesId"], FILTER_SANITIZE_NUMBER_INT);
     $pagesTitle = filter_var($_POST["pagesTitle"], FILTER_SANITIZE_SPECIAL_CHARS);
     $pagesContent = $_POST["pagesContent"];
-    //$pagesContent = htmlspecialchars(strip_tags($_POST["pagesContent"]), ENT_QUOTES, 'UTF-8');
 
     // link the necessary files
     include "../classes/dbh.classes.php";
